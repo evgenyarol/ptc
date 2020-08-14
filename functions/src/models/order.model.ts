@@ -9,5 +9,7 @@ export interface Order {
     total: number;
     createdAt: number;
     status: string;
-    signature: string;
+    subUsers: [];
+    runway: string;
+    signatureUrl: string;
 }

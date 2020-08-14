@@ -25,9 +25,6 @@ export class OrderService {
 	public static async getById(id: string): Promise<any> {
 		const order: any = await OrderRepository.getById(id);
 
-		order.user = await ProfileService.getById(order.userId);
-		order.eventName = (await EventService.getById(order.eventId)).name;
-
 		return order;
 	}
 
@@ -35,7 +32,7 @@ export class OrderService {
 		const orders: any[] = await OrderRepository.getAll();
 
 		for (let order of orders) {
-			order.user = await ProfileService.getById(order.userId);
+			order.user = await ProfileService.getByIdWithoutSubUsers(order.userId);
 			order.eventName = (await EventService.getById(order.eventId)).name;
 		}
 

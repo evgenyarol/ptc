@@ -14,7 +14,7 @@ export class OrderRepository {
 	}
 
 	public static async getById(id: string): Promise<Order> {
-		const order = (await this.getCollection().doc(id).get());
+		const order = (await this.getCollection().doc(id).get()).data();
 
 		return {id, ...order};
 	}
