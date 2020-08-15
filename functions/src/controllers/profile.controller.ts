@@ -18,6 +18,18 @@ export class ProfileController {
 							response.status(500).send(error);
 						});
 				})
+				.post(
+					'/subuser', async (request: any, response: any) => {
+						const profiles = request.body;
+	
+						await ProfileService.createSubUsers(profiles)
+							.then((result) => {
+								response.status(201).send(result);
+							})
+							.catch((error) => {
+								response.status(500).send(error);
+							});
+					})
 			.get(
 				'', async (request: any, response: any) => {
 					await ProfileService.getAll()

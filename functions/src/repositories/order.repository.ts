@@ -41,7 +41,7 @@ export class OrderRepository {
 			  });
 		})
 		.catch((error: any) => {
-			throw new Error(error.message);
+			throw new Error('EventRegistration was not found');
 		});
 		return res;	
 	}
