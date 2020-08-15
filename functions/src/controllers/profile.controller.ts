@@ -21,6 +21,9 @@ export class ProfileController {
 				.post(
 					'/subuser', async (request: any, response: any) => {
 						const profiles = request.body;
+						if (!request.body.parentId) {
+							return response.status(404).send('No ParentId')
+						}
 	
 						await ProfileService.createSubUsers(profiles)
 							.then((result) => {
