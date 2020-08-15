@@ -34,8 +34,15 @@ export class ProfileService {
 	}
 
 	public static async getByPhone(phone: string): Promise<any> {
-		return await ProfileRepository.getByPhone(phone);
-		
+
+		const profiles: any[] = await ProfileRepository.getByPhone(phone);
+
+		for (let profile of profiles) {
+
+			profile.subUsers = await ProfileRepository.getByParentId(profile.id);
+		}
+
+		return profiles;
 	}
 
 	
@@ -54,26 +61,10 @@ export class ProfileService {
 	}
 
 	public static async update(profile: any): Promise<Profile | null> {
-		const {subUsers, id, ...parent} = profile;
+		const {id, ...profileData} = profile;
 
-		await ProfileRepository.update(id, parent);
-
-
-		for (let subUser of subUsers) {
-			const {id, ...subUserData} = subUser;
-
-			if (id) {
-				await ProfileRepository.update(id, subUserData);
-				continue;
-			}
-
-			subUser.createdAt = Date.now();
-			subUser.parentId = parent.id;
-			const updatedSubUser = await this.createProfile(subUser);
-			subUser.id = updatedSubUser.id;
-		}
-
-		return profile;
+		return await ProfileRepository.update(id, profileData);
+	
 	}
 
 	public static async delete(id: string): Promise<void> {

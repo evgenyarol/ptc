@@ -29,6 +29,22 @@ export class OrderRepository {
 			});
 		return res;
 	}
+	public static async getByUserId(userid: string): Promise<Order[]> {
+		const res: Order[] = []
+		await this.getCollection().where('userId', '==', userid).get()
+		.then((snapshot: any) => {
+			if (snapshot.empty) {
+				throw new Error('EventRegistration was not found');
+			}
+			snapshot.forEach((doc: any) => {
+				res.push({id: doc.id, ...doc.data()})
+			  });
+		})
+		.catch((error: any) => {
+			throw new Error(error.message);
+		});
+		return res;	
+	}
 
 	public static async update(id: string, order: any): Promise<Order> {
 

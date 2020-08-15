@@ -41,6 +41,18 @@ export class OrderController {
 							response.status(500).send(error);
 						});
 				})
+				.get(
+					'/user/:userid', async (request: any, response: any) => {
+						const userid = request.params.userid;
+	
+						await OrderService.getByUserId(userid)
+							.then((result) => {
+								response.status(200).send(result);
+							})
+							.catch((error) => {
+								response.status(500).send(error);
+							});
+					})
 			.put(
 				'', async (request: any, response: any) => {
 					const order = request.body;

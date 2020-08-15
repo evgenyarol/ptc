@@ -21,7 +21,11 @@ export class OrderService {
 
 		return savedOrder;
 	}
+	public static async getByUserId(userid: string): Promise<any> {
+		const eventReg: any = await OrderRepository.getByUserId(userid);
 
+		return eventReg;
+	}
 	public static async getById(id: string): Promise<any> {
 		const order: any = await OrderRepository.getById(id);
 
