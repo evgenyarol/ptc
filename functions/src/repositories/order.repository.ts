@@ -1,7 +1,7 @@
-import {Connections} from '../utils/connections';
-import {Profile} from '../models/profile.model';
-import {Event} from '../models/event.model';
-import {Order} from '../models/order.model';
+import { Connections } from '../utils/connections';
+import { Profile } from '../models/profile.model';
+import { Event } from '../models/event.model';
+import { Order } from '../models/order.model';
 
 const ORDERS_COLLECTIONS = 'orders';
 
@@ -16,7 +16,7 @@ export class OrderRepository {
 	public static async getById(id: string): Promise<Order> {
 		const order = (await this.getCollection().doc(id).get()).data();
 
-		return {id, ...order};
+		return { id, ...order };
 	}
 
 	public static async getAll(): Promise<Order[]> {
@@ -31,7 +31,7 @@ export class OrderRepository {
 	}
 	public static async getByUserId(userid: string): Promise<Order[]> {
 		const res: Order[] = []
-		await this.getCollection().where('userId', '==', userid).get()
+		await this.getCollection().where('subUsers', 'array-contains', userid).get()
 		.then((snapshot: any) => {
 			if (snapshot.empty) {
 				throw new Error('EventRegistration was not found');
